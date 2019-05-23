@@ -45,4 +45,33 @@ public class CommentServiceImpl implements CommentService {
         commentRepository.delete(found);
 
     }
+
+    @Override
+    public Comment updateComment(Long id, Comment input) {
+        Optional<Comment> optionalComment=commentRepository.findById(id);
+        if(optionalComment.isPresent()){
+            Comment found=optionalComment.get();
+            found.setText(input.getText());
+
+            return commentRepository.save(found);
+        }
+        return null;
+    }
+
+    @Override
+    public int likeComment(long id) {
+        Optional <Comment> optionalComment=commentRepository.findById(id);
+        if(optionalComment.isPresent()){
+            Comment found=optionalComment.get();
+            int count=found.getCount();
+            count++;
+            found.setCount(count);
+            commentRepository.save(found);
+            return count;
+
+        }
+        return 0;
+    }
+
+
 }

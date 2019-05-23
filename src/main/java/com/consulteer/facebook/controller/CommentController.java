@@ -25,4 +25,15 @@ public class CommentController {
         commentService.deleteComment(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @PutMapping("/{id}")
+    public Comment updateComment (@PathVariable("id") Long id,@RequestBody Comment input){
+        return commentService.updateComment(id,input);
+
+    }
+
+    @PostMapping("/{id}")
+    public int likeComment(@PathVariable("id") long id){
+        return commentService.likeComment(id);
+    }
 }

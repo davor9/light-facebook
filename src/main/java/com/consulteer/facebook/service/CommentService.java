@@ -7,4 +7,8 @@ public interface CommentService {
     Comment create(Long postId,Long userId,Comment comment);
 
     void deleteComment(Long commentId);
+
+    Comment updateComment(Long id,Comment input);
+
+    int likeComment(long id);
 }
