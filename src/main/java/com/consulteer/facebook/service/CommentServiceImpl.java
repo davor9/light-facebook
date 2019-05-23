@@ -23,12 +23,12 @@ public class CommentServiceImpl implements CommentService {
     private UserRepository userRepository;
 
     @Override
-    public Comment create(Long postId,Long userId, Comment input) {
+    public Comment create(Long postId, Long userId, Comment input) {
         Optional<Post> optionalPost = postRepository.findById(postId);
-        Optional <User> optionalUser=userRepository.findById(userId);
-        if (optionalPost.isPresent()&&optionalUser.isPresent()) {
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (optionalPost.isPresent() && optionalUser.isPresent()) {
             Post post = optionalPost.get();
-            User user=optionalUser.get();
+            User user = optionalUser.get();
             input.setUser(user);
             input.setPost(post);
             input.setTime(LocalDateTime.now());
