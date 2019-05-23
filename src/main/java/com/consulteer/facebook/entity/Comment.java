@@ -1,5 +1,7 @@
 package com.consulteer.facebook.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -11,9 +13,11 @@ public class Comment {
     private Long id;
     @ManyToOne
     @JoinColumn(name="user_id", nullable=false)
+    @JsonIgnore
     private User user;
     @ManyToOne
     @JoinColumn(name="post_id", nullable=false)
+    @JsonIgnore
     private Post post;
     private String text;
     private int count;

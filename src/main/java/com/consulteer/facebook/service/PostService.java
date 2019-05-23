@@ -17,6 +17,6 @@ public interface PostService {
 
     Post updatePost(long postId,Post post);
 
-    void deletePost(long postId);
+    void deletePost(long commentId);
 
 }
