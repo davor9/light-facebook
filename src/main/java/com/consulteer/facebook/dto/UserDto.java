@@ -2,6 +2,7 @@ package com.consulteer.facebook.dto;
 
 import com.consulteer.facebook.entity.Comment;
 import com.consulteer.facebook.entity.Post;
+import com.consulteer.facebook.entity.Replies;
 import com.consulteer.facebook.entity.User;
 
 import java.time.LocalDate;
@@ -20,6 +21,8 @@ public class UserDto {
     private List<BasicPostDto> posts = new ArrayList<>(0);
 
     private List<BasicCommentDto> comments = new ArrayList<>(0);
+
+    private List<BasicRepliesDto> replies = new ArrayList<>(0);
 
     public Long getId() {
         return id;
@@ -85,6 +88,14 @@ public class UserDto {
         this.comments = comments;
     }
 
+    public List<BasicRepliesDto> getReplies() {
+        return replies;
+    }
+
+    public void setReplies(List<BasicRepliesDto> replies) {
+        this.replies = replies;
+    }
+
     public static UserDto convertToUserDto(User user) {
 
         if (user != null) {
@@ -113,6 +124,14 @@ public class UserDto {
                         .collect(Collectors.toList());
                 userDto.setComments(comments);
 
+            }
+
+            if(user.getReplies() != null){
+                List<BasicRepliesDto> replies = user.getReplies()
+                        .stream()
+                        .map(c->BasicRepliesDto.convertToBasicDtoReplies(c))
+                        .collect(Collectors.toList());
+                userDto.setReplies(replies);
             }
             return userDto;
 
@@ -162,6 +181,15 @@ public class UserDto {
 //                        .forEach(c -> {
 //                            user.getComments().add(BasicCommentDto.convertToEntityComment(c));
 //                        });
+            }
+
+            if(userDto.getReplies() != null){
+                List<Replies> replies = userDto.getReplies()
+                        .stream()
+                        .map(c-> BasicRepliesDto.convertToEntityReplies(c))
+                        .collect(Collectors.toList());
+                user.setReplies(replies);
+
             }
 
 

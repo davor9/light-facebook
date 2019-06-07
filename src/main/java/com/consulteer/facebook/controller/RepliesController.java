@@ -1,7 +1,8 @@
 package com.consulteer.facebook.controller;
 
 
-import com.consulteer.facebook.entity.Replies;
+import com.consulteer.facebook.dto.RepliesDto;
+
 import com.consulteer.facebook.service.RepliesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,8 +14,8 @@ public class RepliesController {
     @Autowired
     RepliesService repliesService;
 
-//    @PostMapping("comments/{commentId}/users/{userId}")
-//    public Replies createReply(@PathVariable("commentId") Long commentId, @PathVariable("userId")Long userId, @RequestBody Replies replies){
-//        return repliesService.createReply(commentId, userId, replies);
-//    }
+    @PostMapping("comments/{commentId}/users/{userId}")
+    public RepliesDto createReply(@PathVariable("commentId") Long commentId, @PathVariable("userId")Long userId, @RequestBody RepliesDto replies){
+        return repliesService.createReply(commentId, userId, replies);
+    }
 }

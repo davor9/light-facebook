@@ -2,6 +2,7 @@ package com.consulteer.facebook.service;
 
 import com.consulteer.facebook.dto.*;
 
+import com.consulteer.facebook.entity.Comment;
 import com.consulteer.facebook.entity.Post;
 import com.consulteer.facebook.entity.User;
 import com.consulteer.facebook.repository.CommentRepository;
@@ -39,40 +40,40 @@ public class CommentServiceImpl implements CommentService {
         return null;
     }
 
-//    @Override
-//    public void deleteComment(Long commentId) {
-//        Optional <Comment> optionalComment=commentRepository.findById(commentId);
-//        Comment found = optionalComment.get();
-//        commentRepository.delete(found);
-//
-//    }
-//
-//    @Override
-//    public Comment updateComment(Long id, Comment input) {
-//        Optional<Comment> optionalComment=commentRepository.findById(id);
-//        if(optionalComment.isPresent()){
-//            Comment found=optionalComment.get();
-//            found.setText(input.getText());
-//
-//            return commentRepository.save(found);
-//        }
-//        return null;
-//    }
-//
-//    @Override
-//    public int likeComment(long id) {
-//        Optional <Comment> optionalComment=commentRepository.findById(id);
-//        if(optionalComment.isPresent()){
-//            Comment found=optionalComment.get();
-//            int count=found.getCount();
-//            count++;
-//            found.setCount(count);
-//            commentRepository.save(found);
-//            return count;
-//
-//        }
-//        return 0;
-//    }
+    @Override
+    public void deleteComment(Long commentId) {
+        Optional <Comment> optionalComment=commentRepository.findById(commentId);
+        CommentDto found = CommentDto.convertToDtoComment(optionalComment.get());
+        commentRepository.delete(CommentDto.convertToEntityComment(found));
+
+    }
+
+    @Override
+    public CommentDto updateComment(Long id, CommentDto input) {
+        Optional<Comment> optionalComment=commentRepository.findById(id);
+        if(optionalComment.isPresent()){
+            CommentDto found= CommentDto.convertToDtoComment(optionalComment.get());
+            found.setText(input.getText());
+
+            return CommentDto.convertToDtoComment(commentRepository.save(CommentDto.convertToEntityComment(found)));
+        }
+        return null;
+    }
+
+    @Override
+    public int likeComment(long id) {
+        Optional <Comment> optionalComment=commentRepository.findById(id);
+        if(optionalComment.isPresent()){
+            CommentDto found = CommentDto.convertToDtoComment(optionalComment.get());
+            int count=found.getCount();
+            count++;
+            found.setCount(count);
+            CommentDto.convertToDtoComment(commentRepository.save(CommentDto.convertToEntityComment(found)));
+            return count;
+
+        }
+        return 0;
+    }
 
 
 }

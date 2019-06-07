@@ -19,12 +19,15 @@ public class User {
     private LocalDate birthdate;
     private String email;
     private String password;
+
     @OneToMany(mappedBy = "user", targetEntity = Post.class)
-    @JsonIgnore
     private List<Post> posts = new ArrayList<>(0);
+
     @OneToMany(mappedBy = "user", targetEntity = Comment.class)
-    @JsonIgnore
     private List<Comment> comments = new ArrayList<>(0);
+
+    @OneToMany(mappedBy = "user",targetEntity= Replies.class)
+    private List<Replies> replies = new ArrayList<>(0);
 
     public Long getId() {
         return id;
@@ -89,4 +92,13 @@ public class User {
     public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
+
+    public List<Replies> getReplies() {
+        return replies;
+    }
+
+    public void setReplies(List<Replies> replies) {
+        this.replies = replies;
+    }
+
 }

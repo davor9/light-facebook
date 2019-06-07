@@ -1,9 +1,9 @@
 package com.consulteer.facebook.service;
 
-import com.consulteer.facebook.entity.Replies;
+import com.consulteer.facebook.dto.RepliesDto;
 
 public interface RepliesService {
 
-//    Replies createReply(Long commentId,Long userId,Replies replies);
+    RepliesDto createReply(Long commentId, Long userId, RepliesDto replies);
 
 }
