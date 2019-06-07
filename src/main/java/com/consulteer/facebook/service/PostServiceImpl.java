@@ -1,5 +1,9 @@
 package com.consulteer.facebook.service;
 
+import com.consulteer.facebook.dto.BasicUserDto;
+import com.consulteer.facebook.dto.PostDto;
+import com.consulteer.facebook.dto.UserDto;
+
 import com.consulteer.facebook.entity.Post;
 import com.consulteer.facebook.entity.User;
 import com.consulteer.facebook.repository.PostRepository;
@@ -14,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -26,48 +31,50 @@ public class PostServiceImpl implements PostService {
     @Autowired
     private UserRepository userRepository;
 
-//    @Override
-//    public Post createPost(Post post) {
-//        post.setTime(LocalDateTime.now());
-//        return postRepository.save(post);
-//    }
 
     @Override
-    public int likePost(Post post) {
+    public int likePost(PostDto post) {
         int count = post.getCount();
         count++;
         post.setCount(count);
-        postRepository.save(post);
+        PostDto.convertToDtoPost(postRepository.save(PostDto.convertToEntityPost(post)));
         return count;
     }
 
     @Override
-    public int likePost(long postId) {
-        Post post = postRepository.getOne(postId);
-        if (post != null) {
-            return likePost(post);
+    public int likePost(long postId, long userId) {
+
+        PostDto post = PostDto.convertToDtoPost(postRepository.getOne(postId));
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (optionalUser.isPresent()) {
+            if (post != null) {
+                return likePost(post);
+            }
         }
         return 0;
     }
 
     @Override
-    public Post create(Long userId, Post post) {
+    public PostDto create(Long userId, PostDto postDto) {
         Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
-            post.setUser(user);
-            post.setTime(LocalDateTime.now());
-            return postRepository.save(post);
+            UserDto user = UserDto.convertToUserDto(optionalUser.get());
+            postDto.setUsers(BasicUserDto.convertToBasicDtoUser(UserDto.convertToEntity(user)));
+            postDto.setTime(LocalDateTime.now());
+            return PostDto.convertToDtoPost(postRepository.save(PostDto.convertToEntityPost(postDto)));
         }
         return null;
     }
 
+
     @Override
     public Page<Post> findAllPageable(Long userId, int page, int size, boolean sort) {
         Optional<User> optionalUser = userRepository.findById(userId);
+
+        UserDto userDto= UserDto.convertToUserDto(optionalUser.get());
         if (optionalUser.isPresent()) {
             if (sort) {
-                return postRepository.findAllByUserSorted(optionalUser.get(), PageRequest.of(page, size));
+                return (postRepository.findAllByUserSorted(optionalUser.get(), PageRequest.of(page, size)));
             }
 
             return postRepository.findAllByUser(optionalUser.get(), PageRequest.of(page, size));
@@ -76,13 +83,13 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Post updatePost(long postId, Post post) {
-        Post found = postRepository.getOne(postId);
+    public PostDto updatePost(long postId, PostDto post) {
+        PostDto found = PostDto.convertToDtoPost(postRepository.getOne(postId));
         if (found != null) {
             found.setText(post.getText());
             found.setTitle(post.getTitle());
 
-            return postRepository.save(found);
+            return PostDto.convertToDtoPost(postRepository.save(PostDto.convertToEntityPost(found)));
 
         }
         return null;
@@ -91,23 +98,20 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void deletePost(long postId) {
-        Post found= postRepository.getOne(postId);
-        postRepository.delete(found);
+        PostDto found = PostDto.convertToDtoPost(postRepository.getOne(postId));
+        postRepository.delete(PostDto.convertToEntityPost(found));
 
     }
 
 //    @Override
-//    public List<Post> findAllByUser(Long userId) {
+//    public List<PostDto> findAllByUser(Long userId) {
 //        User user = userRepository.getOne(userId);
-//        if(user != null) {
+//        UserDto dtoUser = UserDto.convertToUserDto(user);
+//        if(dtoUser != null) {
 //            return postRepository.findAllByUser(user);
 //        }
 //
 //        return null;
 //    }
 
-//    @Override
-//    public Post updatePost(Post post) {
-//        return null;
-//    }
 }

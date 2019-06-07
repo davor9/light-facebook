@@ -1,6 +1,7 @@
 package com.consulteer.facebook.controller;
 
-import com.consulteer.facebook.entity.Post;
+
+import com.consulteer.facebook.dto.PostDto;
 import com.consulteer.facebook.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,17 +14,18 @@ public class PostController {
     @Autowired
     private PostService postService;
 
-    @PutMapping("/{id}/like")
-    public Integer likePost(@PathVariable("id") Long id){
-        return postService.likePost(id);
+    @PutMapping("/{postId}/users/{userId}/like")
+    public Integer likePost(@PathVariable("postId") Long postId,@PathVariable("userId") long userId){
+        return postService.likePost(postId,userId);
     }
 
     @PutMapping("/{id}")
-    public Post updatePost(@PathVariable("id") Long id, @RequestBody Post post) {
+    public PostDto updatePost(@PathVariable("id") Long id, @RequestBody PostDto post) {
         return postService.updatePost(id,post);
     }
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<Post> deletePost(@PathVariable("id") Long id){
+    public ResponseEntity<PostDto> deletePost(@PathVariable("id") Long id){
         postService.deletePost(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }

@@ -14,7 +14,7 @@ public class Post extends Object {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
-    @JoinColumn(name="user_id", nullable=false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
     private String title = "Default";
     private String text;
@@ -32,11 +32,11 @@ public class Post extends Object {
         this.id = id;
     }
 
-    public User getUser() {
+    public User getUsers() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUsers(User user) {
         this.user = user;
     }
 

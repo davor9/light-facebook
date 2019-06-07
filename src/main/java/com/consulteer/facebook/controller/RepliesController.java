@@ -13,8 +13,8 @@ public class RepliesController {
     @Autowired
     RepliesService repliesService;
 
-    @PostMapping("comments/{commentId}/users/{userId}")
-    public Replies createReply(@PathVariable("commentId") Long commentId, @PathVariable("userId")Long userId, @RequestBody Replies replies){
-        return repliesService.createReply(commentId, userId, replies);
-    }
+//    @PostMapping("comments/{commentId}/users/{userId}")
+//    public Replies createReply(@PathVariable("commentId") Long commentId, @PathVariable("userId")Long userId, @RequestBody Replies replies){
+//        return repliesService.createReply(commentId, userId, replies);
+//    }
 }

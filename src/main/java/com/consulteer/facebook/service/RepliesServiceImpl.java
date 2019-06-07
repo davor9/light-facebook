@@ -21,20 +21,20 @@ public class RepliesServiceImpl implements  RepliesService{
     @Autowired
     UserRepository userRepository;
 
-    @Override
-    public Replies createReply(Long commentId,Long userId,Replies replies) {
-        Optional<Comment> optionalComment=commentRepository.findById(commentId);
-        Optional <User> optionalUser=userRepository.findById(userId);
-        if(optionalComment.isPresent() && optionalUser.isPresent()){
-            Comment comment=commentRepository.getOne(commentId);
-            User user=userRepository.getOne(userId);
-
-            replies.setUser(user);
-            replies.setComment(comment);
-            replies.setTime(LocalDateTime.now());
-            return repliesRepository.save(replies);
-
-        }
-        return null;
-    }
+//    @Override
+//    public Replies createReply(Long commentId,Long userId,Replies replies) {
+//        Optional<Comment> optionalComment=commentRepository.findById(commentId);
+//        Optional <User> optionalUser=userRepository.findById(userId);
+//        if(optionalComment.isPresent() && optionalUser.isPresent()){
+//            Comment comment=commentRepository.getOne(commentId);
+//            User user=userRepository.getOne(userId);
+//
+//            replies.setUser(user);
+//            replies.setComment(comment);
+//            replies.setTime(LocalDateTime.now());
+//            return repliesRepository.save(replies);
+//
+//        }
+//        return null;
+//    }
 }

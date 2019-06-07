@@ -1,14 +1,20 @@
 package com.consulteer.facebook.service;
 
-import com.consulteer.facebook.entity.User;
 
-import java.util.Optional;
+import com.consulteer.facebook.dto.BasicPostDto;
+import com.consulteer.facebook.dto.UserDto;
+
+
+
+import java.util.List;
+
 
 
 public interface UserService {
 
-    User create(User user);
+    UserDto create(UserDto userDto);
 
-    Optional<User> findOne(Long id);
+    UserDto findOne(Long id);
 
+    List<BasicPostDto> findAllPostByUser(Long userId);
 }

@@ -1,9 +1,12 @@
 package com.consulteer.facebook.entity;
 
+import com.consulteer.facebook.dto.BasicPostDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "comment")
@@ -12,16 +15,19 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
-    @JoinColumn(name="user_id", nullable=false)
+    @JoinColumn(name = "user_id", nullable = false)
     @JsonIgnore
     private User user;
     @ManyToOne
-    @JoinColumn(name="post_id", nullable=false)
+    @JoinColumn(name = "post_id", nullable = false)
     @JsonIgnore
     private Post post;
     private String text;
     private int count;
     private LocalDateTime time;
+    @OneToMany(mappedBy = "comment")
+    @JsonIgnore
+    private List<Replies> replies = new ArrayList<>(0);
 
     public Long getId() {
         return id;
@@ -63,6 +69,14 @@ public class Comment {
         this.count = count;
     }
 
+    public List<Replies> getReplies() {
+        return replies;
+    }
+
+    public void setReplies(List<Replies> replies) {
+        this.replies = replies;
+    }
+
     public LocalDateTime getTime() {
         return time;
     }
@@ -71,3 +85,6 @@ public class Comment {
         this.time = time;
     }
 }
+
+
+

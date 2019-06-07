@@ -19,10 +19,10 @@ public class User {
     private LocalDate birthdate;
     private String email;
     private String password;
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", targetEntity = Post.class)
     @JsonIgnore
     private List<Post> posts = new ArrayList<>(0);
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", targetEntity = Comment.class)
     @JsonIgnore
     private List<Comment> comments = new ArrayList<>(0);
 
