@@ -71,7 +71,7 @@ public class RepliesDto {
 
             repliesDto.setTime(replies.getTime());
             repliesDto.setCount(replies.getCount());
-            repliesDto.setId(repliesDto.getId());
+            repliesDto.setId(replies.getId());
             repliesDto.setText(replies.getText());
 
             if(replies.getComment() != null){
@@ -100,7 +100,7 @@ public class RepliesDto {
             replies.setText(repliesDto.getText());
             replies.setId(repliesDto.getId());
             replies.setTime(repliesDto.getTime());
-            replies.setCount(replies.getCount());
+            replies.setCount(repliesDto.getCount());
 
             if(repliesDto.getComments() != null){
                 BasicCommentDto t= repliesDto.getComments();

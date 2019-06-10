@@ -12,4 +12,6 @@ public interface CommentService {
     CommentDto updateComment(Long id,CommentDto input);
 
     int likeComment(long id);
+
+    int dislikeComment(long commentId);
 }

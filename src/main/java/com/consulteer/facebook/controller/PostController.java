@@ -27,7 +27,10 @@ public class PostController {
     @DeleteMapping("/{id}")
     public ResponseEntity<PostDto> deletePost(@PathVariable("id") Long id){
         postService.deletePost(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.GONE);
     }
 
+    @PutMapping("/{postId}/dislike")
+
+    public Integer dislikePost(@PathVariable("postId") Long postId){return postService.dislikePost(postId);}
 }

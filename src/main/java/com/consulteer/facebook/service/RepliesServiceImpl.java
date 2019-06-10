@@ -3,6 +3,7 @@ package com.consulteer.facebook.service;
 import com.consulteer.facebook.dto.*;
 import com.consulteer.facebook.entity.Comment;
 
+import com.consulteer.facebook.entity.Replies;
 import com.consulteer.facebook.entity.User;
 import com.consulteer.facebook.repository.CommentRepository;
 import com.consulteer.facebook.repository.RepliesRepository;
@@ -38,4 +39,66 @@ public class RepliesServiceImpl implements  RepliesService{
         }
         return null;
     }
+
+    @Override
+    public RepliesDto updateReply(Long replyId, RepliesDto replies) {
+        Optional<Replies> optionalReply = repliesRepository.findById(replyId);
+        if(optionalReply.isPresent()){
+            RepliesDto reply = RepliesDto.convertToDtoReplies(optionalReply.get());
+
+            reply.setText(replies.getText());
+
+            return RepliesDto.convertToDtoReplies(repliesRepository.save(RepliesDto.convertToEntityReplies(reply)));
+        }
+
+        return null;
+    }
+
+    @Override
+    public void deleteReply(Long replyId) {
+        Optional<Replies> optionalReply = repliesRepository.findById(replyId);
+        if(optionalReply.isPresent()){
+            repliesRepository.delete(optionalReply.get());
+        }
+
+    }
+
+    @Override
+    public Integer likeReply(Long replyId) {
+        Optional<Replies> optionalReplies = repliesRepository.findById(replyId);
+        if(optionalReplies.isPresent()){
+            Replies replies = optionalReplies.get();
+            int count = replies.getCount();
+            count++;
+            RepliesDto repliesDto = RepliesDto.convertToDtoReplies(replies);
+            repliesDto.setCount(count);
+
+            repliesRepository.save(RepliesDto.convertToEntityReplies(repliesDto));
+
+            return count;
+
+        }
+        return 0;
+    }
+
+    @Override
+    public Integer dislikeReply(Long replyId) {
+        Optional<Replies> optionalReplies = repliesRepository.findById(replyId);
+        if(optionalReplies.isPresent()){
+            Replies replies = optionalReplies.get();
+            int count = replies.getCount();
+            count--;
+            RepliesDto repliesDto = RepliesDto.convertToDtoReplies(replies);
+            repliesDto.setCount(count);
+
+            repliesRepository.save(RepliesDto.convertToEntityReplies(repliesDto));
+
+            return count;
+
+        }
+        return 0;
+
+    }
+
+
 }

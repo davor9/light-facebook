@@ -13,6 +13,8 @@ public interface PostService {
 
     int likePost(long postId,long userId);
 
+    int dislikePost(long postId);
+
     PostDto create(Long userId, PostDto postDto);
 
     Page<Post> findAllPageable(Long userId, int page, int size, boolean sort);

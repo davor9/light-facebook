@@ -55,6 +55,23 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public int dislikePost(long postId) {
+        Optional<Post> optionalPost = postRepository.findById(postId);
+        if(optionalPost.isPresent()){
+
+            PostDto postDto = PostDto.convertToDtoPost(optionalPost.get());
+            int count =postDto.getCount();
+            count--;
+            postDto.setCount(count);
+
+            postRepository.save(PostDto.convertToEntityPost(postDto));
+            return count;
+
+        }
+        return 0;
+    }
+
+    @Override
     public PostDto create(Long userId, PostDto postDto) {
         Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isPresent()) {

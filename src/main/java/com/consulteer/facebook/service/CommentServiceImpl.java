@@ -75,5 +75,19 @@ public class CommentServiceImpl implements CommentService {
         return 0;
     }
 
+    @Override
+    public int dislikeComment(long commentId) {
+        Optional<Comment> optionalComment = commentRepository.findById(commentId);
+        if(optionalComment.isPresent()){
+            CommentDto commentDto = CommentDto.convertToDtoComment(optionalComment.get());
+            int count = commentDto.getCount();
+            count--;
+            commentDto.setCount(count);
+            commentRepository.save(CommentDto.convertToEntityComment(commentDto));
+            return count;
+        }
+        return 0;
+    }
+
 
 }

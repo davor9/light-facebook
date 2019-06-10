@@ -36,4 +36,7 @@ public class CommentController {
     public int likeComment(@PathVariable("id") long id){
         return commentService.likeComment(id);
     }
+
+    @PutMapping("/{commentId}/dislike")
+    public Integer dislikeComment(@PathVariable ("commentId") Long commentId){return commentService.dislikeComment(commentId);}
 }
